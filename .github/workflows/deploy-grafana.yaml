@@ -1,0 +1,27 @@
+name: k6-performance-test
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+jobs:
+  k6-load-test:
+    runs-on: ubuntu-latest
+
+    env:
+      TARGET_URL: https://test.k6.io
+      ENVIRONMENT: ci
+      # InfluxDB for k6 -> Grafana
+      K6_OUT: influxdb=${{ secrets.INFLUXDB_URL }}/k6
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Install k6
+        uses: grafana/setup-k6-action@v1
+
+      - name: Run k6 performance test
+        run: |
+          k6 run k6-script.js
