@@ -30,8 +30,9 @@ jobs:
         run: |
           allure-k6 generate results.json -o allure-results
 
-      - name: Publish Allure Report
-        uses: simple-elf/allure-report-action@v1
+      - name: Generate Allure Report
+        uses: simple-elf/allure-report-action@v1.9
         with:
-         allure_results: allure-results
-         gh_pages: gh-pages
+          allure_results: allure-results
+          allure_report: allure-report
+          keep_reports: 20
